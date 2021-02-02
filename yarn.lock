@@ -375,6 +375,11 @@ is-typedarray@^1.0.0:
   resolved "https://registry.yarnpkg.com/is-typedarray/-/is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a"
   integrity sha1-5HnICFjfDBsR3dppQPlgEfzaSpo=
 
+is-valid-email@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/is-valid-email/-/is-valid-email-0.0.5.tgz#2f38e86862cd15a350dca0572956688723e71a21"
+  integrity sha512-S4kGLCkv+oKjI7h8VaZRXcYjCkwItO/P5rkYdO4E61EoZIXqJbEQtkoG5dF4Vt36QOWUIbO4lil80Vau7GLUJw==
+
 is-yarn-global@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/is-yarn-global/-/is-yarn-global-0.3.0.tgz#d502d3382590ea3004893746754c89139973e232"

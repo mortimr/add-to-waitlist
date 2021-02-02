@@ -1,16 +1,19 @@
 const Airtable = require("airtable");
+const isValidEmail = require("is-valid-email");
 
 const base = new Airtable({
   apiKey: process.env.AIRTABLE_KEY,
 }).base(process.env.AIRTABLE_BASE);
 
 module.exports = (req, res, next) => {
-  console.log(process.env);
+  if (!isValidEmail(req.query.mail)) {
+    next(new Error('Invalid email'));
+  } else {
   base("waitlist").create(
     [
       {
         fields: {
-          mail: "iulian@rotaru.fr",
+          mail: req.query.mail,
         },
       },
     ],
@@ -23,11 +26,8 @@ module.exports = (req, res, next) => {
       records.forEach(function (record) {
         console.log(record.getId());
       });
-      res.json({
-        body: req.body,
-        query: req.query,
-        cookies: req.cookies,
-      });
+      res.json(records);
     }
   );
+  }
 };
