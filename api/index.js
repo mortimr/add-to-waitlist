@@ -22,8 +22,12 @@ module.exports = async (req, res) => {
   if (!isValidEmail(req.query.mail)) {
     res.status(500).send("Invalid Email");
   } else {
-    const existingRecord = await base("waitlist").find(req.query.mail);
-    if (existingRecord) {
+    const existingRecord = await base("waitlist").select({
+      pageSize: 1,
+      maxRecords: 1,
+      filterByFormula: "{mail} = '" + req.query.mail + "'"
+    }).firstPage()
+    if (existingRecord.length > 0) {
       res.status(500).send("Already registered");
     } else {
       const records = await base("waitlist").create([
