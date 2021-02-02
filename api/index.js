@@ -4,7 +4,7 @@ const base = new Airtable({
   apiKey: process.env.AIRTABLE_KEY,
 }).base(process.env.AIRTABLE_BASE);
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   base("waitlist").create(
     [
       {
