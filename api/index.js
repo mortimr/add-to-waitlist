@@ -5,7 +5,7 @@ const base = new Airtable({
   apiKey: process.env.AIRTABLE_KEY,
 }).base(process.env.AIRTABLE_BASE);
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.setHeader("Access-Control-Allow-Origin", "*");
   // another common pattern
@@ -22,33 +22,18 @@ module.exports = (req, res) => {
   if (!isValidEmail(req.query.mail)) {
     res.status(500).send("Invalid Email");
   } else {
-    base("waitlist")
-      .find(req.query.mail)
-      .then((res) => {
-        if (res) {
-          res.status(500).send("Already registered");
-        } else {
-          base("waitlist").create(
-            [
-              {
-                fields: {
-                  mail: req.query.mail,
-                },
-              },
-            ],
-            function (err, records) {
-              if (err) {
-                console.error(err);
-                res.status(500).send("Error while creating");
-                return;
-              }
-              records.forEach(function (record) {
-                console.log(record.getId());
-              });
-              res.json(records);
-            }
-          );
-        }
-      });
+    const existingRecord = await base("waitlist").find(req.query.mail);
+    if (existingRecord) {
+      res.status(500).send("Already registered");
+    } else {
+      const records = await base("waitlist").create([
+        {
+          fields: {
+            mail: req.query.mail,
+          },
+        },
+      ]);
+      res.json(records);
+    }
   }
 };
